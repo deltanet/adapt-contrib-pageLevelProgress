@@ -37,7 +37,7 @@
     "_pageLevelProgress": {
         "_isEnabled": true,
         "_showPageCompletion": true,
-        "_excludeAssessments": false,
+        "_excludeAssessments": true,
         "_isCompletionIndicatorEnabled": true
     }
 }

@@ -45,7 +45,8 @@ define([
                 completion.assessmentTotal = assessmentComponents.length;
                 completion.assessmentCompleted = getComponentsInteractionCompleted(assessmentComponents).length;
 
-                if (contentObjectModel.get('_pageLevelProgress')._excludeAssessments !== true) {
+                // only include assessments if _excludeAssessments is explicitly set to false
+                if (typeof contentObjectModel.get('_pageLevelProgress')._excludeAssessments === 'boolean' && contentObjectModel.get('_pageLevelProgress')._excludeAssessments === false) {
                     completion.subProgressCompleted = contentObjectModel.get('_subProgressComplete') || 0;
                     completion.subProgressTotal = contentObjectModel.get('_subProgressTotal') || 0;
                 }
