@@ -139,7 +139,7 @@
                 "_excludeAssessments": {
                   "type": "boolean",
                   "required": false,
-                  "default": false,
+                  "default": true,
                   "title": "Exclude assessments.",
                   "inputType": "Checkbox",
                   "validators": [],
