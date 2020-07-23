@@ -44,9 +44,20 @@
 
     .pagelevelprogress-indicator {
         position: relative;
-        top: -3px;
+        top: -2px;
         width: 100px;
         vertical-align: middle;
+    }
+
+    .pagelevelprogress-counter {
+        position: relative;
+        display: inline-block;
+        color: @navigation-text-color;
+        padding-left: @navigation-padding / 2;
+        .dir-rtl & {
+            padding-left: 0;
+            padding-right: @navigation-padding / 2;
+        }
     }
 
 }

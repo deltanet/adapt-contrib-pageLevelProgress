@@ -142,9 +142,25 @@ define([
         return percentageComplete;
     }
 
+    function calculateCompleted(model) {
+        var completionObject = calculateCompletion(model);
+
+        var completed = completionObject.nonAssessmentCompleted + completionObject.assessmentCompleted + completionObject.subProgressCompleted;
+        return completed;
+    }
+
+    function calculateTotal(model) {
+        var completionObject = calculateCompletion(model);
+
+        var total  = completionObject.nonAssessmentTotal + completionObject.assessmentTotal + completionObject.subProgressTotal;
+        return total;
+    }
+
     return {
         calculateCompletion: calculateCompletion,
         calculatePercentageComplete: calculatePercentageComplete,
+        calculateCompleted: calculateCompleted,
+        calculateTotal: calculateTotal,
         getPageLevelProgressEnabledModels: getPageLevelProgressEnabledModels,
         filterAvailableChildren: filterAvailableChildren
     };
