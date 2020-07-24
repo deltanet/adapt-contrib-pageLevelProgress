@@ -43,6 +43,14 @@
       "inputType": "Text",
       "validators": [],
       "translatable": true
+    },
+    "counter": {
+      "type": "string",
+      "required": true,
+      "default": "of",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
     }
   },
   "properties": {
@@ -117,6 +125,15 @@
                   "inputType": "Checkbox",
                   "validators": [],
                   "help": "Controls whether the Page Level Progress extension is enabled or disabled for this page."
+                },
+                "_isCompletionCounterEnabled": {
+                  "type": "boolean",
+                  "required": false,
+                  "default": false,
+                  "title": "Show completion counter",
+                  "inputType": "Checkbox",
+                  "validators": [],
+                  "help": "Controls whether the completion counter is displayed next to the pregress bar in the navigation area."
                 },
                 "_showPageCompletion": {
                   "type": "boolean",
