@@ -1,56 +1,65 @@
 define([
-    'core/js/adapt'
+  'core/js/adapt'
 ], function(Adapt) {
 
-    var PageLevelProgressCounterView = Backbone.View.extend({
+  var PageLevelProgressCounterView = Backbone.View.extend({
 
-        initialize: function(options) {
-            options = options || {};
-            this.calculateCompleted = options.calculateCompleted;
-            this.calculateTotal = options.calculateTotal;
-            this.addClasses();
-            this.setUpEventListeners();
-            this.render();
-            this.refresh();
-        },
+    initialize: function(options) {
+      options = options || {};
+      this.calculateCompleted = options.calculateCompleted;
+      this.calculateTotal = options.calculateTotal;
+      this.addClasses();
+      this.setUpEventListeners();
+      this.render();
+      this.refresh();
+    },
 
-        addClasses: function() {
-            this.$el.addClass([
-                'pagelevelprogress-counter'
-            ].join(' '));
-        },
+    addClasses: function() {
+      this.$el.addClass([
+        'pagelevelprogress__counter'
+      ].join(' '));
+    },
 
-        setUpEventListeners: function() {
-            this.listenTo(Adapt, 'remove', this.remove);
-            this.listenTo(this.model, 'change:_isComplete', this.refresh);
-            if (!this.collection) return;
-            this.listenTo(this.collection, 'change:_isComplete', this.refresh);
-        },
+    setUpEventListeners: function() {
+      if (this.parent) {
+        this.listenToOnce(this.parent, 'postRemove', this.remove);
+      } else {
+        this.listenTo(Adapt, 'remove', this.remove);
+      }
+      this.listenTo(this.model, 'change:_isComplete', this.refresh);
+      if (!this.collection) return;
+      this.listenTo(this.collection, 'change:_isComplete', this.refresh);
+    },
 
-        refresh: function() {
-            this.checkCompletion();
-            this.render();
-        },
+    getRenderData: function() {
+      var data = this.model.toJSON();
+      return data;
+    },
 
-        checkCompletion: function() {
-            var completed = this.calculateCompleted();
-            var total = this.calculateTotal();
+    render: function() {
+      var data = this.model.toJSON();
+      data.ariaLabel = this.ariaLabel;
+      var template = Handlebars.templates[this.constructor.template];
+      this.$el.html(template(data));
+    },
 
-            this.model.set('completed', completed);
-            this.model.set('total', total);
-        },
+    refresh: function() {
+      this.checkCompletion();
+      this.render();
+    },
 
-        render: function() {
-            var data = this.model.toJSON();
-            data.ariaLabel = this.ariaLabel;
-            var template = Handlebars.templates[this.constructor.template];
-            this.$el.html(template(data));
-        }
+    checkCompletion: function() {
+      var completed = this.calculateCompleted();
+      var total = this.calculateTotal();
 
-    }, {
+      this.model.set('completed', completed);
+      this.model.set('total', total);
+    }
+
+  }, {
         template: 'pageLevelProgressCounter'
-    });
+  });
 
-    return PageLevelProgressCounterView;
+  return PageLevelProgressCounterView;
 
 });

@@ -4,6 +4,25 @@
   &__pagelevelprogress-btn {
     .u-float-right;
     padding: @icon-size (@icon-size / 2);
+
+    &.is-counter {
+      padding: @icon-padding;
+      .pagelevelprogress__indicator {
+        float: left;
+        margin-top: @icon-size / 4;
+      }
+    }
+  }
+
+  .pagelevelprogress__counter {
+    float: left;
+    color: @nav-inverted;
+    min-height: @icon-size;
+    padding-left: @icon-padding / 2;
+    .dir-rtl & {
+      padding-left: 0;
+      padding-right: @icon-padding / 2;
+    }
   }
 }
 

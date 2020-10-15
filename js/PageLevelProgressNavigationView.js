@@ -2,8 +2,9 @@ define([
   'core/js/adapt',
   './completionCalculations',
   './PageLevelProgressView',
-  './PageLevelProgressIndicatorView'
-], function(Adapt, completionCalculations, PageLevelProgressView, PageLevelProgressIndicatorView) {
+  './PageLevelProgressIndicatorView',
+  './PageLevelProgressCounterView'
+], function(Adapt, completionCalculations, PageLevelProgressView, PageLevelProgressIndicatorView, PageLevelProgressCounterView) {
 
   var PageLevelProgressNavigationView = Backbone.View.extend({
 
@@ -20,6 +21,7 @@ define([
       this.setUpEventListeners();
       this.render();
       this.addIndicator();
+      this.addCounter();
       this.deferredUpdate();
     },
 
@@ -44,6 +46,30 @@ define([
         ariaLabel: Adapt.course.get('_globals')._extensions._pageLevelProgress.pageLevelProgressIndicatorBar
       });
       this.$el.prepend(this.indicatorView.$el);
+    },
+
+    addCounter: function() {
+      // Do not proceed if the counter is not enabled for the content object
+      var isEnabled = this.model.get('_pageLevelProgress')._isCompletionCounterEnabled;
+      if (!isEnabled) return;
+
+      this.counterView = new PageLevelProgressCounterView({
+        model: this.model,
+        collection: this.collection,
+        calculateCompleted: this._getPageCompleted,
+        calculateTotal: this._getPageCompletionTotal
+      });
+      this.$el.append(this.counterView.$el);
+
+      this.$el.addClass('is-counter');
+    },
+
+    _getPageCompleted: function() {
+      return completionCalculations.calculateCompleted(this.model);
+    },
+
+    _getPageCompletionTotal: function() {
+      return completionCalculations.calculateTotal(this.model);
     },
 
     _getPageCompletionPercentage: function() {
